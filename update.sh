@@ -51,10 +51,13 @@ for i in $DIR/*; do #глядим во все папки баз
   then
     echo -n found 1Cv8 file! Updating config!...
     #$ONEC DESIGNER /F $i /UpdateCFg $CFG /UpdateDBCfg # фигачим апдейт
-    #$ONEC ENTERPRISE /F $i #Запускаем шоб руками доделать то, что руками надо
-    #ВОТ ТУТ БЫ ЕЩЕ XDOTOOL ПРИЦЕПИТЬ А
     sleep 3
     echo ok!
+    echo -n launching 1c!...
+    #$ONEC ENTERPRISE /F $i #Запускаем шоб руками доделать то, что руками надо
+    xdotool search --name Бухгалтерия windowactivate
+    #ВОТ ТУТ БЫ ЕЩЕ XDOTOOL ПРИЦЕПИТЬ А
+
   else
     echo 'can`t find 1Cv8 file =C Doing nothing'
     sleep 1
