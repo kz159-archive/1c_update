@@ -1,4 +1,8 @@
 #!/bin/bash
+#This script assumes that you runnig 1c in web server mode(apache2.4 to be exact) and 1c is installed in /opt/1C/v8.3/x86_64/1cv8
+ONEC="/opt/1C/v8.3/x86_64/1cv8"
+BACKUP_DEF="/tmp/1c_backup.tgz"
+
 while getopts b:d:c: option #ВОТ СЮДА ДОБАВИТЬ --no-backup
 do
 case "${option}"
@@ -24,17 +28,23 @@ fi
 
 if [ -z "$BACKUP" ] #чекаем место бэкапа
 then
-  echo "backup obsolete path was not specified, switching to /tmp!"
-  BACKUP=/tmp/1c_backup.tgz
+  echo "backup obsolete path was not specified, staying on defaults!($BACKUP_DEF)"
+  BACKUP=$BACKUP_DEF
 fi
-
-ONEC="/opt/1C/v8.3/x86_64/1cv8"
 
 # Высвечиваем инфу шоб удобно было
 echo config = $CFG
 echo dir = $DIR
 echo 1c = $ONEC
 echo backup_name = $BACKUP
+
+echo is this info correct?[y/n]
+read $all_set
+
+if [ !"$all_set" = "y"]; then
+  echo expected y, exiting
+  exit
+fi
 
 echo -n stopping Apache... # останавливаем апач
 systemctl stop apache232
