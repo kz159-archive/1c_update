@@ -47,29 +47,29 @@ if [ !"$all_set" = "y"]; then
 fi
 
 echo -n stopping Apache... # останавливаем апач
-systemctl stop apache232
+systemctl stop apache2
 echo ok!
 
 echo -n making backup... # пилим бэкап
 sleep 3
-tar -zcf $BACKUP -P $DIR
+#tar -zcf $BACKUP -P $DIR
 echo ok!
 
-for i in $DIR/*; do #глядим во все папки баз
+for i in $DIR/*; do #глядим во все папки баз #delete '/'
   echo -n "updating base $i..."
   if [ -e "$i/1Cv8.1CD" ] #паралельно убеждаемся, что перед нами 1с8 база
   then
     echo -n found 1Cv8 file! Updating config!...
-    #$ONEC DESIGNER /F $i /UpdateCFg $CFG /UpdateDBCfg # фигачим апдейт
+    $ONEC DESIGNER /F $i /UpdateCFg $CFG /UpdateDBCfg &> /dev/null # фигачим апдейт
     sleep 3
     echo ok!
     echo -n launching 1c!...
-    #$ONEC ENTERPRISE /F $i #Запускаем шоб руками доделать то, что руками надо
-    xdotool search --name Бухгалтерия windowactivate
+    $ONEC ENTERPRISE /F $i &> /dev/null #Запускаем шоб руками доделать то, что руками надо
+    #xdotool search --name Бухгалтерия windowactivate
     #ВОТ ТУТ БЫ ЕЩЕ XDOTOOL ПРИЦЕПИТЬ А
 
   else
-    echo 'can`t find 1Cv8 file =C Doing nothing'
+    echo 'can`t find 1Cv8 file, consider remove or fix that db!'
     sleep 1
   fi
 done
