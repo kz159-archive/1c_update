@@ -2,6 +2,7 @@
 #This script assumes that you runnig 1c in web server mode(apache2.4 to be exact) and 1c is installed in /opt/1C/v8.3/x86_64/1cv8
 ONEC="/opt/1C/v8.3/x86_64/1cv8"
 BACKUP_DEF="/tmp/1c_backup.tgz"
+COUNT=1
 
 while getopts b:d:c: option #ВОТ СЮДА ДОБАВИТЬ --no-backup
 do
@@ -41,7 +42,7 @@ echo backup_name = $BACKUP
 echo is this info correct?[y/n]
 read $all_set
 
-if [ !"$all_set" = "y"]; then
+if [ !"$all_set" = "y" ]; then
   echo expected y, exiting
   exit
 fi
@@ -55,8 +56,12 @@ sleep 3
 #tar -zcf $BACKUP -P $DIR
 echo ok!
 
+how_many=$(ls -l $DIR | grep -c ^d) #подсчет папок для УдОбСтВа трека
+echo $how_many
+
 for i in $DIR/*; do #глядим во все папки баз #delete '/'
-  echo -n "updating base $i..."
+  echo -n "updating base $i ($COUNT/$how_many)..."
+  ((COUNT++))
   if [ -e "$i/1Cv8.1CD" ] #паралельно убеждаемся, что перед нами 1с8 база
   then
     echo -n found 1Cv8 file! Updating config!...
@@ -70,7 +75,7 @@ for i in $DIR/*; do #глядим во все папки баз #delete '/'
 
   else
     echo 'can`t find 1Cv8 file, consider remove or fix that db!'
-    sleep 1
+    sleep 2
   fi
 done
 
