@@ -59,23 +59,23 @@ echo ok!
 how_many=$(ls -l $DIR | grep -c ^d) #подсчет папок для УдОбСтВа трека
 echo $how_many
 
-for i in $DIR/*; do #глядим во все папки баз #delete '/'
-  echo -n "updating base $i ($COUNT/$how_many)..."
-  ((COUNT++))
-  if [ -e "$i/1Cv8.1CD" ] #паралельно убеждаемся, что перед нами 1с8 база
-  then
-    echo -n found 1Cv8 file! Updating config!...
-    $ONEC DESIGNER /F $i /UpdateCFg $CFG /UpdateDBCfg &> /dev/null # фигачим апдейт
-    sleep 3
-    echo ok!
-    echo -n launching 1c!...
-    $ONEC ENTERPRISE /F $i &> /dev/null #Запускаем шоб руками доделать то, что руками надо
-    #xdotool search --name Бухгалтерия windowactivate
-    #ВОТ ТУТ БЫ ЕЩЕ XDOTOOL ПРИЦЕПИТЬ А
-
-  else
-    echo 'can`t find 1Cv8 file, consider remove or fix that db!'
-    sleep 2
+for i in $DIR/*; do
+  if [ -d "$i" ]; then #глядим во все папки баз #delete '/'
+    echo -n "updating base $i($COUNT/$how_many)..."
+    ((COUNT++))
+    if [ -e "$i/1Cv8.1CD" ]; then #паралельно убеждаемся, что перед нами 1с8 база
+      echo -n found 1Cv8 file! Updating config!...
+      $ONEC DESIGNER /F $i /UpdateCFg $CFG /UpdateDBCfg &> /dev/null # фигачим апдейт
+      sleep 3
+      echo ok!
+      echo -n launching 1c!...
+      $ONEC ENTERPRISE /F $i &> /dev/null #Запускаем шоб руками доделать то, что руками надо
+      #xdotool search --name Бухгалтерия windowactivate
+      #ВОТ ТУТ БЫ ЕЩЕ XDOTOOL ПРИЦЕПИТЬ А
+    else
+      echo 'can`t find 1Cv8 file, consider remove or fix that db!'
+      sleep 2
+    fi
   fi
 done
 
