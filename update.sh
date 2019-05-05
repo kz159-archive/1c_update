@@ -40,9 +40,9 @@ echo 1c = $ONEC
 echo backup_name = $BACKUP
 
 echo is this info correct?[y/n]
-read $all_set
+read all_set
 
-if [ !"$all_set" = "y" ]; then
+if [ ! "$all_set" = "y" ]; then
   echo expected y, exiting
   exit
 fi
@@ -57,7 +57,6 @@ sleep 3
 echo ok!
 
 how_many=$(ls -l $DIR | grep -c ^d) #подсчет папок для УдОбСтВа трека
-echo $how_many
 
 for i in $DIR/*; do
   if [ -d "$i" ]; then #глядим во все папки баз #delete '/'

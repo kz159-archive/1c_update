@@ -1,5 +1,7 @@
 Tiny script(for linux) that helps with update of your db`s
 
+# FIRST OF ALL:
+THIS IS PRE VIEW AND OPTION DRY RUN IS NOTREADY YET TO ACTUALY RUN THIS SCRIPT DELETE ON TAR #
 # USAGE:
 1) First of all make this script executable, here you go
 `chmod +x update.sh`
